@@ -77,12 +77,17 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 
 1. Create DB
+```bash
 psql -U postgress 
 create database myawesomedatabase;
+```
 
 2. Create ORMConfig
+```bash
 touch ormcofig.json
+```
 
+```bash
 {
     "type": "postgres",
     "host": "localhost",
@@ -96,9 +101,12 @@ touch ormcofig.json
         "dist/**/*.entity{.ts,.js}"
     ]
 }
+```
 
 Warning: use for loggin entties changes and db updates 
-  {
-    "synchronize": true,
-    "logging": true,
-  }
+```bash
+{
+  "synchronize": true,
+  "logging": true,
+}
+```
