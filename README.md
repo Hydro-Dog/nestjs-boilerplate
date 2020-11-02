@@ -6,7 +6,7 @@
 [travis-url]: https://travis-ci.org/nestjs/nest
 [linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
 [linux-url]: https://travis-ci.org/nestjs/nest
-  
+
   <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
@@ -72,38 +72,37 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## License
 
-  Nest is [MIT licensed](LICENSE).
-
-
+Nest is [MIT licensed](LICENSE).
 
 1. Create DB
+
 ```bash
-psql -U postgress 
+psql -U postgress
 create database myawesomedatabase;
 ```
 
 2. Create ORMConfig
+
 ```bash
 touch ormcofig.json
 ```
 
 ```bash
 {
-    "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "postgres",
-    "password": "111111",
-    "database": "myawesomedatabase",
-    "synchronize": true,
-    "logging": true,
-    "entities": [
-        "dist/**/*.entity{.ts,.js}"
-    ]
+	"type": "postgres",
+	"host": "localhost",
+	"port": 5432,
+	"username": "postgres",
+	"password": "111111",
+	"database": "myawesomedatabase",
+	"synchronize": true,
+	"logging": false,
+	"entities": ["dist/**/*.entity{.ts,.js}"]
 }
 ```
 
-Warning: use for loggin entties changes and db updates 
+Warning: use for loggin entties changes and db updates
+
 ```bash
 {
   "synchronize": true,
