@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDTO } from './user.dto';
@@ -23,16 +23,33 @@ export class UserService {
 	}
 
 	async get(id: string) {
-		return await this.userRepository.findOne({ where: { id } });
+		try {
+			const user = await this.userRepository.findOne({ where: { id } });
+			if (!user) {
+				throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+			}
+
+			return user;
+		} catch (error) {
+			//catch block for invalid uuid -------------------------------------------
+			throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+		}
 	}
 
 	async update(id: string, data: Partial<UserDTO>) {
-		await this.userRepository.update({ id }, data);
+		const user = await this.userRepository.update({ id }, data);
+		if (!user.affected) {
+			throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+		}
+
 		return this.userRepository.findOne({ where: { id } });
 	}
 
 	async destroy(id: string) {
-		await this.userRepository.delete({ id });
-		return { deleted: true };
+		const user = await this.userRepository.delete({ id });
+		if (!user.affected) {
+			throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+		}
+		return { user: id };
 	}
 }
