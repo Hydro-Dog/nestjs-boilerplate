@@ -12,9 +12,22 @@ import { ValidationPipe } from 'src/shared/validation.pipe';
 import { UserDTO } from './user.dto';
 import { UserService } from './user.service';
 
-@Controller('user')
+// pass route name to the @Controller decorator -----------------------------------------------
+@Controller('api/user')
 export class UserController {
 	constructor(private userService: UserService) {}
+
+	@Post('login')
+	@UsePipes(new ValidationPipe()) //validate this endpoint with ValidationPipe ------------
+	login(@Body() data: Partial<UserDTO>) {
+		return this.userService.login(data);
+	}
+
+	@Post('register')
+	@UsePipes(new ValidationPipe())
+	register(@Body() data: UserDTO) {
+		return this.userService.register(data);
+	}
 
 	@Get()
 	getAllUsers() {
@@ -25,12 +38,6 @@ export class UserController {
 	getUser(@Param('id') id: string) {
 		console.log('getUser id: ', id);
 		return this.userService.get(id);
-	}
-
-	@Post()
-	@UsePipes(new ValidationPipe()) //validate this endpoint with ValidationPipe ----------------
-	createUser(@Body() data: UserDTO) {
-		return this.userService.create(data);
 	}
 
 	@Put(':id')

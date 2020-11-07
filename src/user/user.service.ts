@@ -12,31 +12,51 @@ export class UserService {
 		private userRepository: Repository<UserEntity>,
 	) {}
 
-	async getAll() {
-		return await this.userRepository.find();
+	async login(data: Partial<UserDTO>): Promise<Partial<UserDTO>> {
+		const { email, password } = data;
+		const user = await this.userRepository.findOne({ where: { email } });
+		const isValid = await user?.comparePassword(password);
+		if (!user || !isValid) {
+			throw new HttpException(
+				'Invalid username/password',
+				HttpStatus.BAD_REQUEST,
+			);
+		}
+		return user.toResponseObject();
 	}
 
-	async create(data: UserDTO) {
-		const user = this.userRepository.create(data);
+	async register(data: UserDTO): Promise<Partial<UserDTO>> {
+		const { email } = data;
+		let user = await this.userRepository.findOne({ where: { email } });
+		if (user) {
+			throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+		}
+
+		user = await this.userRepository.create(data);
 		await this.userRepository.save(user);
-		return user;
+		return user.toResponseObject();
 	}
 
-	async get(id: string) {
+	async getAll(): Promise<Partial<UserDTO[]>> {
+		const users = await this.userRepository.find();
+		return users.map(user => user.toResponseObject(false));
+	}
+
+	async get(id: string): Promise<Partial<UserDTO>> {
 		try {
 			const user = await this.userRepository.findOne({ where: { id } });
 			if (!user) {
 				throw new HttpException('Not found', HttpStatus.NOT_FOUND);
 			}
 
-			return user;
+			return user.toResponseObject(false);
 		} catch (error) {
 			//catch block for invalid uuid -------------------------------------------
 			throw new HttpException('Not found', HttpStatus.NOT_FOUND);
 		}
 	}
 
-	async update(id: string, data: Partial<UserDTO>) {
+	async update(id: string, data: Partial<UserDTO>): Promise<Partial<UserDTO>> {
 		const user = await this.userRepository.update({ id }, data);
 		if (!user.affected) {
 			throw new HttpException('Not found', HttpStatus.NOT_FOUND);
