@@ -10,7 +10,7 @@ import { tap } from 'rxjs/operators';
 
 //this class catches all requests --------------------------------------
 @Injectable()
-export class LogginInterseptor implements NestInterceptor {
+export class LoggerInterseptor implements NestInterceptor {
 	intercept(
 		context: ExecutionContext,
 		next: CallHandler<any>,

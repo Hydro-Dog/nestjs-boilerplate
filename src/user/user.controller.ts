@@ -6,8 +6,10 @@ import {
 	Param,
 	Post,
 	Put,
+	UseGuards,
 	UsePipes,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/shared/guards/auth2.guard';
 import { ValidationPipe } from 'src/shared/validation.pipe';
 import { UserDTO } from './user.dto';
 import { UserService } from './user.service';
@@ -30,6 +32,7 @@ export class UserController {
 	}
 
 	@Get()
+	@UseGuards(AuthGuard)
 	getAllUsers() {
 		return this.userService.getAll();
 	}

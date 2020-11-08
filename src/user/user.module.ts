@@ -9,5 +9,6 @@ import { UserService } from './user.service';
 	imports: [TypeOrmModule.forFeature([UserEntity])], //get us access to typeorm and entities we pass to it in the current module
 	controllers: [UserController],
 	providers: [UserService],
+	exports: [TypeOrmModule.forFeature([UserEntity])],
 })
 export class UserModule {}

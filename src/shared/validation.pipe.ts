@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import {
 	ArgumentMetadata,
-	BadRequestException,
 	HttpException,
 	HttpStatus,
 	Injectable,

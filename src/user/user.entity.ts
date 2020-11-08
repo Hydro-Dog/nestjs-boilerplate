@@ -8,7 +8,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
-//pass name to the @Entity() decorator to specify db table  name --------------------------
+//pass name to the @Entity() decorator to specify db table name --------------------------
 @Entity('user')
 export class UserEntity {
 	@PrimaryGeneratedColumn('uuid') id: string;
@@ -23,7 +23,7 @@ export class UserEntity {
 	@Column({ type: 'text', unique: true }) email: string;
 	@Column('text') password: string;
 	@Column('text') secret: string;
-	@Column('text') innNumber: string;
+	@Column('text') lang: string;
 	@Column('text') companyId: string;
 	@Column('text') friendsIds: string;
 	@Column('text') friendsRequestsIds: string;
@@ -34,12 +34,21 @@ export class UserEntity {
 		this.password = await bcrypt.hash(this.password, 10);
 	}
 
-	toResponseObject(showToken = true) {
-		const resObj = { ...this };
-		console.log('resObj: ', resObj);
+	@BeforeInsert()
+	generateSecret() {
+		const secret = Math.random()
+			.toString(36)
+			.slice(-8);
+		this.secret = secret;
+	}
+
+	toResponseObject(addToken = true) {
+		const resObj: any = { ...this };
 		delete resObj.password;
-		if (showToken) {
-			resObj.token = this.token;
+		delete resObj.secret;
+		if (addToken) {
+			resObj.authToken = this.authToken;
+			resObj.refreshToken = this.refreshToken;
 		}
 		return resObj;
 	}
@@ -48,12 +57,13 @@ export class UserEntity {
 		return await bcrypt.compare(attempt, this.password);
 	}
 
-	private get token() {
+	private get authToken() {
 		const { id } = this;
-		return jwt.sign({ id }, process.env.SECRET, { expiresIn: '7d' });
+		return jwt.sign({ id }, this.secret, { expiresIn: '5m' });
 	}
 
-	private set token(val) {
-		this.token = val;
+	private get refreshToken() {
+		const { id } = this;
+		return jwt.sign({ id }, this.secret, { expiresIn: '10m' });
 	}
 }

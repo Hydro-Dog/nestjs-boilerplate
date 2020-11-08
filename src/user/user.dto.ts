@@ -1,4 +1,10 @@
-import { IsArray, IsBoolean, IsString } from 'class-validator';
+import {
+	IsArray,
+	IsBoolean,
+	IsDefined,
+	IsOptional,
+	IsString,
+} from 'class-validator';
 
 export class UserDTO {
 	@IsString() //class-validator check -------------------
@@ -28,11 +34,12 @@ export class UserDTO {
 	@IsString()
 	password: string;
 
+	@IsOptional()
 	@IsString()
 	secret: string;
 
 	@IsString()
-	innNumber: string;
+	lang: string;
 
 	@IsString()
 	companyId: string;
