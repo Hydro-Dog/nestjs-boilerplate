@@ -34,21 +34,12 @@ export class UserEntity {
 		this.password = await bcrypt.hash(this.password, 10);
 	}
 
-	@BeforeInsert()
-	generateSecret() {
-		const secret = Math.random()
-			.toString(36)
-			.slice(-8);
-		this.secret = secret;
-	}
-
-	toResponseObject(addToken = true) {
+	toResponseObject(addToken = false, secret = '') {
 		const resObj: any = { ...this };
 		delete resObj.password;
-		delete resObj.secret;
-		if (addToken) {
-			resObj.authToken = this.authToken;
-			resObj.refreshToken = this.refreshToken;
+		if (addToken && secret) {
+			resObj.authToken = this.getAuthToken(secret);
+			resObj.refreshToken = this.getRefreshToken(secret);
 		}
 		return resObj;
 	}
@@ -57,13 +48,13 @@ export class UserEntity {
 		return await bcrypt.compare(attempt, this.password);
 	}
 
-	private get authToken() {
+	private getAuthToken(secret) {
 		const { id } = this;
-		return jwt.sign({ id }, this.secret, { expiresIn: '5m' });
+		return jwt.sign({ id }, secret, { expiresIn: '5m' });
 	}
 
-	private get refreshToken() {
+	private getRefreshToken(secret) {
 		const { id } = this;
-		return jwt.sign({ id }, this.secret, { expiresIn: '10m' });
+		return jwt.sign({ id }, secret, { expiresIn: '10m' });
 	}
 }

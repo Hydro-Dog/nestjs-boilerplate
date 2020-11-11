@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { generateSecret } from 'src/helpers/generateSecret';
 import { Repository } from 'typeorm';
 import { UserDTO } from './user.dto';
 
@@ -22,7 +23,11 @@ export class UserService {
 				HttpStatus.BAD_REQUEST,
 			);
 		}
-		return user.toResponseObject();
+
+		const secret = generateSecret();
+		await this.userRepository.update({ id: user.id }, { secret });
+
+		return user.toResponseObject(true, secret);
 	}
 
 	async register(data: UserDTO): Promise<Partial<UserDTO>> {
@@ -34,12 +39,12 @@ export class UserService {
 
 		user = await this.userRepository.create(data);
 		await this.userRepository.save(user);
-		return user.toResponseObject();
+		return user.toResponseObject(true, user.secret);
 	}
 
 	async getAll(): Promise<Partial<UserDTO[]>> {
 		const users = await this.userRepository.find();
-		return users.map(user => user.toResponseObject(false));
+		return users.map(user => user.toResponseObject());
 	}
 
 	async get(id: string): Promise<Partial<UserDTO>> {
@@ -49,7 +54,7 @@ export class UserService {
 				throw new HttpException('Not found', HttpStatus.NOT_FOUND);
 			}
 
-			return user.toResponseObject(false);
+			return user.toResponseObject();
 		} catch (error) {
 			//catch block for invalid uuid -------------------------------------------
 			throw new HttpException('Not found', HttpStatus.NOT_FOUND);
