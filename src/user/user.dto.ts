@@ -5,10 +5,11 @@ import {
 	IsOptional,
 	IsString,
 } from 'class-validator';
+import { userRole } from 'src/shared/types/userRole.type';
 
 export class UserDTO {
 	@IsString() //class-validator check -------------------
-	role: 'admin' | 'user' | 'staff' | 'superadmin';
+	role: userRole;
 
 	@IsString()
 	subrole: string;
@@ -45,10 +46,10 @@ export class UserDTO {
 	companyId: string;
 
 	@IsArray()
-	friendsIds: string;
+	friendsIds: string[];
 
 	@IsArray()
-	friendsRequestsIds: string;
+	friendsRequestsIds: string[];
 
 	@IsBoolean()
 	isActive: boolean;

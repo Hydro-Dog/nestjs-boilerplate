@@ -4,16 +4,19 @@ import {
 	CreateDateColumn,
 	Entity,
 	PrimaryGeneratedColumn,
+	UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { userRole } from 'src/shared/types/userRole.type';
 
 //pass name to the @Entity() decorator to specify db table name --------------------------
 @Entity('user')
 export class UserEntity {
 	@PrimaryGeneratedColumn('uuid') id: string;
 	@CreateDateColumn() created: Date;
-	@Column('text') role: 'admin' | 'user' | 'staff' | 'superadmin';
+	@UpdateDateColumn() updated: Date;
+	@Column('text') role: userRole;
 	@Column('text') subrole: string;
 	@Column('text') firstName: string;
 	@Column('text') secondName: string;
@@ -25,8 +28,8 @@ export class UserEntity {
 	@Column('text') secret: string;
 	@Column('text') lang: string;
 	@Column('text') companyId: string;
-	@Column('text') friendsIds: string;
-	@Column('text') friendsRequestsIds: string;
+	@Column('text') friendsIds: string[];
+	@Column('text') friendsRequestsIds: string[];
 	@Column('text') isActive: boolean;
 
 	@BeforeInsert()
