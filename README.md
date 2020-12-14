@@ -84,7 +84,7 @@ postgres-# CREATE ROLE vlad WITH LOGIN PASSWORD 'helloworld';
 postgres-# ALTER ROLE vlad CREATEDB;
 ```
 
-Quit `psql` then log in again using the new user that previously created.7
+Quit `psql` then log in again using the new user that previously created.
 
 ```bash
 postgres-# \q
@@ -95,7 +95,7 @@ postgres=> CREATE DATABASE my_db;
 postgres=> GRANT ALL PRIVILEGES ON DATABASE node_sequelize TO djamware;
 postgres=> \q
 ```
-
+or try --------------------------------------------------------------------
 
 ```bash
 psql -U postgress
