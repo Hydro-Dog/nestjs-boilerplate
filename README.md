@@ -95,6 +95,10 @@ postgres=> CREATE DATABASE my_db;
 postgres=> GRANT ALL PRIVILEGES ON DATABASE node_sequelize TO djamware;
 postgres=> \q
 ```
+--------------------------------------------------------------------------
+
+Postgres need uuid_generate_v4() function. So, if you get QueryFailedError: function uuid_generate_v4() does not exist error, run CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; on pqsl.
+
 or try --------------------------------------------------------------------
 
 ```bash
