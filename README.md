@@ -64,6 +64,39 @@ $ npm run test:cov
 
 1. Create DB
 
+go to /etc/postgresql/12/main/pg_hba.conf and set firs uncommented line to 
+```bash
+local   all         postgres                          ident
+```bash
+
+restart postgress
+
+```bash
+sudo service postgresql restart 
+```bash
+
+go to pg commandline
+
+```bash
+sudo -u postgres psql
+
+postgres-# CREATE ROLE vlad WITH LOGIN PASSWORD 'helloworld';
+postgres-# ALTER ROLE vlad CREATEDB;
+```bash
+
+Quit `psql` then log in again using the new user that previously created.7
+
+```bash
+postgres-# \q
+psql postgres -U vlad
+
+postgres=> CREATE DATABASE my_db;
+
+postgres=> GRANT ALL PRIVILEGES ON DATABASE node_sequelize TO djamware;
+postgres=> \q
+```bash
+
+
 ```bash
 psql -U postgress
 create database myawesomedatabase;
