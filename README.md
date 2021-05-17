@@ -62,7 +62,7 @@ $ npm run test:cov
 
 ## Support
 
-0. Install Postgress ([link](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart-ru))
+0. Install Postgress ([link 1](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart-ru) [link 2](https://www.djamware.com/post/5b56a6cc80aca707dd4f65a9/nodejs-expressjs-sequelizejs-and-postgresql-restful-api))
 
 1. Create DB
 
