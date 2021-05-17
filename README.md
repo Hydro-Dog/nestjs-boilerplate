@@ -61,6 +61,25 @@ $ npm run test:cov
 ```
 
 ## Support
+01.
+sudo -u postgres psql
+
+02.
+postgres-# CREATE ROLE djamware WITH LOGIN PASSWORD 'dj@mw@r3';
+postgres-# ALTER ROLE djamware CREATEDB;
+
+03.
+postgres-# \q
+psql postgres -U djamware
+
+04.
+postgres=> CREATE DATABASE node_sequelize;
+
+05.
+postgres=> GRANT ALL PRIVILEGES ON DATABASE node_sequelize TO djamware;
+postgres=> \q
+
+
 
 0. Install Postgress ([link 1](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart-ru) [link 2](https://www.djamware.com/post/5b56a6cc80aca707dd4f65a9/nodejs-expressjs-sequelizejs-and-postgresql-restful-api))
 
