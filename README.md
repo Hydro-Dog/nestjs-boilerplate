@@ -62,6 +62,8 @@ $ npm run test:cov
 
 ## Support
 
+0. Install Postgress ([link](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart-ru))
+
 1. Create DB
 
 go to /etc/postgresql/12/main/pg_hba.conf and set firs uncommented line to 
