@@ -5,29 +5,35 @@
 
 ## Pre-implemented
 
+```bash
 Http Error Handler
 Logger Interceptor
-
+```
 
 ## Support
 01.
+```bash
 sudo -u postgres psql
-
+```
 02.
+```bash
 postgres-# CREATE ROLE djamware WITH LOGIN PASSWORD 'dj@mw@r3';
 postgres-# ALTER ROLE djamware CREATEDB;
-
+```
 03.
+```bash
 postgres-# \q
 psql postgres -U djamware
-
+```
 04.
+```bash
 postgres=> CREATE DATABASE node_sequelize;
-
+```
 05.
+```bash
 postgres=> GRANT ALL PRIVILEGES ON DATABASE node_sequelize TO djamware;
 postgres=> \q
-
+```
 If instructions overhead didn't hepl try one below. Almost the same but anyway. 
 
 0. Install Postgress ([link 1](https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart-ru) [link 2](https://www.djamware.com/post/5b56a6cc80aca707dd4f65a9/nodejs-expressjs-sequelizejs-and-postgresql-restful-api))
